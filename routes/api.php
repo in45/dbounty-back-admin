@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VulnerabilityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,15 @@ Route::get('users/{user_id}', [UserController::class, 'show']);
 Route::post('users', [UserController::class, 'store']);
 Route::post('users/{user_id}', [UserController::class, 'update']);
 Route::delete('users/{user_id}', [UserController::class, 'destroy']);
+Route::put('users/{user_id}/ban', [UserController::class, 'ban']);
+
+//API For Admins
+
+Route::get('admins', [AdminController::class, 'index']);
+Route::get('admins/{user_id}', [AdminController::class, 'show']);
+Route::post('admins', [AdminController::class, 'store']);
+Route::post('admins/{user_id}', [AdminController::class, 'update']);
+Route::delete('admins/{user_id}', [AdminController::class, 'destroy']);
 
 // API For Companies
 
@@ -39,10 +49,8 @@ Route::post('companies/{id}/managers', [CompanyController::class, 'addManager'])
 Route::delete('companies/{id}/managers/{manager_id}', [CompanyController::class, 'deleteManager']);
 Route::post('companies', [CompanyController::class, 'store']);
 Route::post('companies/{id}', [CompanyController::class, 'update']);
-Route::post('companies/{id}/avatar', [CompanyController::class, 'updateAvatar']);
 Route::delete('companies/{id}', [CompanyController::class, 'destroy']);
-Route::post('companies/{id}/avatar',[CompanyController::class, 'updateAvatar']);
-Route::delete('companies/{id}', [CompanyController::class, 'destroy']);
+Route::post('companies/{id}/code', [CompanyController::class, 'generate']);
 
 // API For Badges
 
@@ -52,7 +60,6 @@ Route::get('me/badges', [BadgeController::class, 'getMyBadges']);
 Route::get('users/{user_id}/badges', [BadgeController::class, 'getBadgesOfUser']);
 Route::post('badges', [BadgeController::class, 'store']);
 Route::post('badges/{id}', [BadgeController::class, 'update']);
-Route::post('badges/{id}/avatar',[BadgeController::class, 'updateAvatar']);
 Route::delete('badges/{id}', [BadgeController::class, 'destroy']);
 
 
@@ -74,11 +81,11 @@ Route::delete('reports/{id}', [ReportController::class, 'destroy']);
 
 //API For Vulnerabilities
 
-Route::get('vulns', [VulnerabilityController::class, 'index']);
-Route::get('vulns/{id}', [VulnerabilityController::class, 'show']);
-Route::post('vulns', [VulnerabilityController::class, 'store']);
-Route::post('vulns/{id}', [VulnerabilityController::class, 'update']);
-Route::delete('vulns/{id}', [VulnerabilityController::class, 'destroy']);
+Route::get('vulnerabilities', [VulnerabilityController::class, 'index']);
+Route::get('vulnerabilities/{id}', [VulnerabilityController::class, 'show']);
+Route::post('vulnerabilities', [VulnerabilityController::class, 'store']);
+Route::post('vulnerabilities/{id}', [VulnerabilityController::class, 'update']);
+Route::delete('vulnerabilities/{id}', [VulnerabilityController::class, 'destroy']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

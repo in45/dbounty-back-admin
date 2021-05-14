@@ -23,6 +23,7 @@ class BadgeController extends Controller
         $badge = new Badge();
         if($request->input('title')) $badge->title = $request->input('title');
         if($request->input('description')) $badge->description = $request->input('description');
+        if($request->file('avatar')) $badge->avatar = $request->file('avatar')->storeAs('badges', $request->avatar->getClientOriginalName(), 'public');
         if($request->input('tokens')) $badge->tokens= $request->input('tokens');
         $badge->save();
         return $badge;
@@ -33,6 +34,7 @@ class BadgeController extends Controller
         $badge = Badge::findOrFail($id);
         if($request->input('title')) $badge->title = $request->input('title');
         if($request->input('description')) $badge->description = $request->input('description');
+         if($request->file('avatar')) $badge->avatar = $request->file('avatar')->storeAs('badges', $request->avatar->getClientOriginalName(), 'public');
         if($request->input('tokens')) $badge->tokens= $request->input('tokens');
         $badge->save();
         return $badge;
@@ -45,14 +47,7 @@ class BadgeController extends Controller
     }
 
 
-    public function updateAvatar($id, Request $request)
-    {
-        $badge = Badge::findOrFail($id);
-        $badge->avatar = $request->file('img')->store('badges_avatar');
-        $badge->save();
-        return $badge;
 
-    }
 
     public function getBadgesOfUser($id)
     {

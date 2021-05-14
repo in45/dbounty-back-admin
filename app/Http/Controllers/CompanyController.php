@@ -27,9 +27,10 @@ class CompanyController extends Controller
         if($request->input('website')) $company->website = $request->input('website');
         if($request->input('email')) $company->email = $request->input('email');
         if($request->input('phone')) $company->phone = $request->input('phone');
-        if($request->input('description')) $company->sdescription = $request->input('description');
-        $company->alpha_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);;
-        $company->beta_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);;
+        if($request->input('description')) $company->description = $request->input('description');
+         if($request->file('logo')) $company->logo = $request->file('logo')->storeAs('companies', $request->logo->getClientOriginalName(), 'public');
+        $company->alpha_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
+        $company->beta_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
         $company->save();
         return $company;
     }
@@ -41,10 +42,20 @@ class CompanyController extends Controller
         if($request->input('website')) $company->website = $request->input('website');
         if($request->input('email')) $company->email = $request->input('email');
         if($request->input('phone')) $company->phone = $request->input('phone');
-        if($request->input('description')) $company->sdescription = $request->input('description');
+        if($request->input('description')) $company->description = $request->input('description');
+         if($request->file('logo')) $company->logo = $request->file('logo')->storeAs('companies', $request->logo->getClientOriginalName(), 'public');
         $company->save();
         return $company;
     }
+    public function generate(Request $request,$id)
+    {
+        $company = Company::findOrFail($id);
+       if($request->input('type') == 'alpha_code') $company->alpha_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
+       else $company->beta_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
+        $company->save();
+        return $company;
+    }
+
 
     public function destroy($id)
     {
@@ -74,12 +85,5 @@ class CompanyController extends Controller
         return "Error while deleting";
     }
 
-    public function updateAvatar($id, Request $request)
-    {
-        $company = Company::findOrFail($id);
-        $company->logo = $request->file('img')->store('companies_avatar');
-        $company->save();
-        return $company;
-
-    }
+ 
 }
