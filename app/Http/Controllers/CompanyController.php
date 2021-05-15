@@ -19,6 +19,12 @@ class CompanyController extends Controller
     {
         return Company::findOrFail($id);
     }
+     public function getCodes($id)
+    {
+      $company = Company::findOrFail($id);
+      $company = $company->makeVisible(['alpha_code', 'beta_code']);
+       return $company;
+    }
 
     public function store(Request $request)
     {
@@ -53,7 +59,8 @@ class CompanyController extends Controller
        if($request->input('type') == 'alpha_code') $company->alpha_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
        else $company->beta_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
         $company->save();
-        return $company;
+        $company = $company->makeVisible(['alpha_code', 'beta_code']);
+       return $company;
     }
 
 
@@ -68,6 +75,7 @@ class CompanyController extends Controller
     {
         return CompanyManager::with('manager')->where('company_id',$id)->get();
     }
+
 
     public function addManager(Request $request,$id)
     {

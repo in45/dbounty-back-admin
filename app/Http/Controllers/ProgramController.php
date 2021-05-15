@@ -3,19 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Program;
+use App\Models\ProgramUser;
 use Illuminate\Http\Request;
 
 class ProgramController extends Controller
 {
     public function index()
     {
-        return Program::paginate(10);
+        return Program::with('company')->withCount(['reports','users'])->paginate(10);
     }
 
     public function show($id)
     {
-        return Program::findOrFail($id);
+        return Program::with('company')->where('id',$id)->withCount(['reports','users'])->first();;
     }
+
+     public function getCompanyPrograms($id)
+    {
+        return Program::with('company')->where('company_id',$id)->withCount(['reports','users'])->get();
+    }
+    public function getUsers($id)
+    {
+        return ProgramUser::with('user')->where('prog_id',$id)->get();
+    }
+   
 
     public function store(Request $request)
     {

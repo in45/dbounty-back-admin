@@ -11,6 +11,7 @@ class Company extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected static function boot()
     {
         parent::boot();
@@ -21,9 +22,10 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\CompanyManager','company_id','id');
     }
-    use SoftDeletes;
+
     protected $appends = ['is_manager'];
-    protected $hidden = ['managers'];
+    protected $hidden = ['managers', 'alpha_code','beta_code'];
+
 
     public function getLogoAttribute($value)
     {

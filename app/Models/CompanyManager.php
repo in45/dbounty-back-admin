@@ -10,6 +10,7 @@ class CompanyManager extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    
     public function manager()
     {
         return $this->hasOne('App\Models\Manager','compte_address','manager_address');

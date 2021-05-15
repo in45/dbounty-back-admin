@@ -16,6 +16,10 @@ class ReportController extends Controller
     {
         return Report::findOrFail($id);
     }
+      public function getProgramReports($id)
+    {
+        return Report::with(['user','vuln'])->where('prog_id',$id)->get();
+    }
 
     public function store(Request $request)
     {
