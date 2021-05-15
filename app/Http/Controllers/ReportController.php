@@ -9,7 +9,7 @@ class ReportController extends Controller
 {
     public function index()
     {
-        return Report::paginate(10);
+        return Report::with(['user','vuln','program'])->paginate(4);
     }
 
     public function show($id)

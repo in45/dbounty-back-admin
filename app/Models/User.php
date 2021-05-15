@@ -38,9 +38,8 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password','reports','programs' ];
+    protected $appends = ['count_reports','count_programs','thanks'];
 
     /**
      * The attributes that should be cast to native types.
@@ -58,5 +57,28 @@ class User extends Authenticatable
     public function getKeyType()
     {
         return 'string';
+    }
+      public function reports()
+    {
+        return $this->hasMany('App\Models\Report','user_address','compte_address');
+    }
+    public function programs()
+    {
+        return $this->hasMany('App\Models\ProgramUser','user_address','compte_address');
+    }
+     public function getCountReportsAttribute()
+    {
+       
+        return count($this->reports);
+    }
+      public function getCountProgramsAttribute()
+    {
+       
+        return count($this->programs);
+    }
+       public function getThanksAttribute()
+    {
+     
+        return count($this->programs()->where('thanks',1)->get());
     }
 }

@@ -27,11 +27,7 @@ class Company extends Model
     protected $hidden = ['managers', 'alpha_code','beta_code'];
 
 
-    public function getLogoAttribute($value)
-    {
-        if(strpos($value,"https")!== false) return $value;
-        else return env("APP_URL_UPLOAD").$value;
-    }
+
 
     public function getIsManagerAttribute()
     {
