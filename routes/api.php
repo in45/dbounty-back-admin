@@ -27,6 +27,8 @@ Route::pattern('user_id', '0x[0-9a-zA-Z]{40}');
 
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{user_id}', [UserController::class, 'show']);
+Route::get('users/{user_id}/reports', [ReportController::class, 'getUserReports']);
+Route::get('users/{user_id}/programs', [ProgramController::class, 'getUserPrograms']);
 Route::post('users', [UserController::class, 'store']);
 Route::post('users/{user_id}', [UserController::class, 'update']);
 Route::delete('users/{user_id}', [UserController::class, 'destroy']);
@@ -47,6 +49,7 @@ Route::get('companies/{id}', [CompanyController::class, 'show']);
 Route::get('companies/{id}/code', [CompanyController::class, 'getCodes']);
 Route::get('companies/{id}/managers', [CompanyController::class, 'getManagers']);
 Route::get('companies/{id}/programs', [ProgramController::class, 'getCompanyPrograms']);
+Route::get('companies/{id}/reports', [ReportController::class, 'getCompanyReports']);
 Route::post('companies/{id}/managers', [CompanyController::class, 'addManager']);
 Route::delete('companies/{id}/managers/{manager_id}', [CompanyController::class, 'deleteManager']);
 Route::post('companies', [CompanyController::class, 'store']);

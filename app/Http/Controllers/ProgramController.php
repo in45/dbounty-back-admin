@@ -20,7 +20,11 @@ class ProgramController extends Controller
 
      public function getCompanyPrograms($id)
     {
-        return Program::with('company')->where('company_id',$id)->withCount(['reports','users'])->get();
+        return Program::where('company_id',$id)->withCount(['reports','users'])->get();
+    }
+      public function getUserPrograms($user_id)
+    {
+        return ProgramUser::with('program')->where('user_address',$user_id)->get();
     }
     public function getUsers($id)
     {

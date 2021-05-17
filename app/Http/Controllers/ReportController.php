@@ -21,6 +21,17 @@ class ReportController extends Controller
         return Report::with(['user','vuln'])->where('prog_id',$id)->get();
     }
 
+       public function getCompanyReports($id)
+    {
+        return Report::with(['user','vuln','program'])->where('company_id',$id)->get();
+    }
+
+       public function getUserReports($user_id)
+    {
+        return Report::with(['program','vuln'])->where('user_address',$user_id)->get();
+    }
+
+
     public function store(Request $request)
     {
 

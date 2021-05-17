@@ -22,4 +22,8 @@ class ProgramUser extends Model
     {
         return $this->hasOne('App\Models\User','compte_address','user_address');
     }
+     public function program()
+    {
+        return $this->hasOne('App\Models\Program','id','prog_id');
+    }
 }
