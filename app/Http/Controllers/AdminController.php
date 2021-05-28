@@ -4,9 +4,44 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+      public function login(Request $request)
+    {
+        $credentials = $request->only(['email', 'password']);
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return response()->json([
+            'token'=>$this->respondWithToken($token),
+            'manager'=> Auth::user()
+        ]);
+    }
+
+    protected function respondWithToken($token)
+    {
+        return [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ];
+    }
+    public function register(Request $request)
+    {
+        $manager = new Manager();
+        $manager->email = $request->input('email');
+        $manager->password = bcrypt($request->input('password'));
+        $manager->save();
+        $token = auth()->attempt(['email'=>$manager->email,'password'=>$request->input('password')]);
+        return $this->respondWithToken($token);
+    }
+    public function me(){
+        return  Auth::user();
+
+    }
      public function index()
     {
         return Admin::paginate(10);
@@ -20,11 +55,11 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $admin = new Admin();
-        if($request->input('compte_address')) $admin->compte_address = $request->input('compte_address');
+        if($request->input('public_address')) $admin->public_address = $request->input('public_address');
       if($request->input('username')) $admin->username = $request->input('username');
       if($request->input('email')) $admin->email = $request->input('email');
       if($request->input('role')) $admin->role = $request->input('role');
-        if($request->file('avatar')) $admin->avatar = $request->file('avatar')->storeAs('admins', $request->avatar->getClientOriginalName(), 'public');
+    
      
         $admin->save();
         return $admin;
@@ -33,12 +68,10 @@ class AdminController extends Controller
     public function update(Request $request,$user_id)
     {
         $admin = Admin::findOrFail($user_id);
-          if($request->input('compte_address')) $admin->compte_address = $request->input('compte_address');
+          if($request->input('public_address')) $admin->public_address = $request->input('public_address');
       if($request->input('username')) $admin->username = $request->input('username');
       if($request->input('email')) $admin->email = $request->input('email');
-      if($request->input('role')) $admin->role = $request->input('role');
-        if($request->file('avatar')) $admin->avatar = $request->file('avatar')->storeAs('admins', $request->avatar->getClientOriginalName(), 'public');
-     
+      if($request->input('role')) $admin->role = $request->input('role'); 
         $admin->save();
         return $admin;
     }

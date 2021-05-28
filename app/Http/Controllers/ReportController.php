@@ -18,7 +18,7 @@ class ReportController extends Controller
     }
       public function getProgramReports($id)
     {
-        return Report::with(['user','vuln'])->where('prog_id',$id)->get();
+        return Report::with(['user','vuln','program'])->where('prog_id',$id)->get();
     }
 
        public function getCompanyReports($id)

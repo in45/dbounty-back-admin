@@ -21,7 +21,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::pattern('user_id', '0x[0-9a-zA-Z]{40}');
+Route::pattern('user_id', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+
+//API For Users
+Route::post('login', [AdminController::class, 'login']);
+Route::post('register', [AdminController::class, 'register']);
+Route::group(['middleware' => ['is.auth']], function() {
+    Route::get('me', [AdminController::class, 'me']);
+});
 
 //API For Users
 
