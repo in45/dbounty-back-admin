@@ -81,13 +81,13 @@ class CompanyController extends Controller
     {
         $company = new CompanyManager();
         $company->company_id = $id;
-        $company->manager_address = $request->input('manager_address');
+        $company->manager_id = $request->input('manager_id');
         $company->save();
         return $company;
     }
     public function deleteManager($id, $manager_id)
     {
-        $company_manager = CompanyManager::where('manager_address',$manager_id)
+        $company_manager = CompanyManager::where('manager_id',$manager_id)
             ->where('company_id',$id);
         if($company_manager->delete()) return  true;
         return "Error while deleting";

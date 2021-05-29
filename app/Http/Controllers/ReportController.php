@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
@@ -16,9 +17,30 @@ class ReportController extends Controller
     {
         return Report::findOrFail($id);
     }
-      public function getProgramReports($id)
+      public function getProgramReports(Request $request,$id)
     {
-        return Report::with(['user','vuln','program'])->where('prog_id',$id)->get();
+        $status = $request->input('status');
+        $type = $request->input('type');
+        $admin_id = Auth::user()->id;
+        if(!$type) {
+        
+            return Report::with(['user', 'vuln', 'program'])->where('prog_id',$id)->where('status', 'like', $status . '%')->paginate(6);
+       }
+        else if($type)  return Report::with(['user','vuln','program'])->where('prog_id',$id)->where('status', 'like', $status . '%')->where('assigned_to_admin',$admin_id)->paginate(6);
+        else return Report::with(['user','vuln','program'])->where('prog_id',$id)->paginate(6);
+     
+    }
+       public function getAllReports(Request $request)
+    {
+        $status = $request->input('status');
+        $type = $request->input('type');
+        $admin_id = Auth::user()->id;
+        if(!$type) {
+        
+            return Report::with(['user', 'vuln', 'program'])->where('status', 'like', $status . '%')->paginate(6);
+       }
+        else  return Report::with(['user','vuln','program'])->where('status', 'like', $status . '%')->where('assigned_to_admin',$admin_id)->paginate(6);
+     
     }
 
        public function getCompanyReports($id)
@@ -28,7 +50,7 @@ class ReportController extends Controller
 
        public function getUserReports($user_id)
     {
-        return Report::with(['program','vuln'])->where('user_address',$user_id)->get();
+        return Report::with(['program','vuln'])->where('user_id',$user_id)->get();
     }
 
 

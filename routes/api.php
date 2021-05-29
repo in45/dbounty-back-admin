@@ -58,7 +58,7 @@ Route::get('companies/{id}/managers', [CompanyController::class, 'getManagers'])
 Route::get('companies/{id}/programs', [ProgramController::class, 'getCompanyPrograms']);
 Route::get('companies/{id}/reports', [ReportController::class, 'getCompanyReports']);
 Route::post('companies/{id}/managers', [CompanyController::class, 'addManager']);
-Route::delete('companies/{id}/managers/{manager_id}', [CompanyController::class, 'deleteManager']);
+Route::delete('companies/{id}/managers/{user_id}', [CompanyController::class, 'deleteManager']);
 Route::post('companies', [CompanyController::class, 'store']);
 Route::post('companies/{id}', [CompanyController::class, 'update']);
 Route::delete('companies/{id}', [CompanyController::class, 'destroy']);
@@ -80,7 +80,7 @@ Route::delete('badges/{id}', [BadgeController::class, 'destroy']);
 Route::get('programs', [ProgramController::class, 'index']);
 Route::get('programs/{id}', [ProgramController::class, 'show']);
 Route::get('programs/{id}/users', [ProgramController::class, 'getUsers']);
-Route::get('programs/{id}/reports', [ReportController::class, 'getProgramReports']);
+Route::post('programs/{id}/reports', [ReportController::class, 'getProgramReports']);
 Route::post('programs', [ProgramController::class, 'store']);
 Route::post('programs/{id}', [ProgramController::class, 'update']);
 Route::delete('programs/{id}', [ProgramController::class, 'destroy']);
@@ -88,9 +88,9 @@ Route::delete('programs/{id}', [ProgramController::class, 'destroy']);
 
 //API For Reports
 
-Route::get('reports', [ReportController::class, 'index']);
+Route::post('reports', [ReportController::class, 'getAllReports']);
 Route::get('reports/{id}', [ReportController::class, 'show']);
-Route::post('reports', [ReportController::class, 'store']);
+Route::post('reports/new', [ReportController::class, 'store']);
 Route::post('reports/{id}', [ReportController::class, 'update']);
 Route::delete('reports/{id}', [ReportController::class, 'destroy']);
 

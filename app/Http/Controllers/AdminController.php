@@ -17,7 +17,7 @@ class AdminController extends Controller
         }
         return response()->json([
             'token'=>$this->respondWithToken($token),
-            'manager'=> Auth::user()
+            'admin'=> Auth::user()
         ]);
     }
 
@@ -55,7 +55,6 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $admin = new Admin();
-        if($request->input('public_address')) $admin->public_address = $request->input('public_address');
       if($request->input('username')) $admin->username = $request->input('username');
       if($request->input('email')) $admin->email = $request->input('email');
       if($request->input('role')) $admin->role = $request->input('role');
