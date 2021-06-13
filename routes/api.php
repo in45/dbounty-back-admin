@@ -4,6 +4,7 @@ use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReportMessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\VulnerabilityController;
@@ -101,6 +102,12 @@ Route::get('vulnerabilities/{id}', [VulnerabilityController::class, 'show']);
 Route::post('vulnerabilities', [VulnerabilityController::class, 'store']);
 Route::post('vulnerabilities/{id}', [VulnerabilityController::class, 'update']);
 Route::delete('vulnerabilities/{id}', [VulnerabilityController::class, 'destroy']);
+
+//API For Messages
+
+Route::get('me/messages', [ReportMessageController::class, 'getMessages']);
+Route::post('reports/{id}/messages', [ReportMessageController::class, 'store']);
+Route::get('reports/{id}/messages', [ReportMessageController::class, 'getReportMessages']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
