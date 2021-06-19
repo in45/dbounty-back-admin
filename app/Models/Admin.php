@@ -15,6 +15,7 @@ class Admin extends Authenticatable implements JWTSubject
     use HasFactory;
 
     use SoftDeletes;
+    protected $hidden = ['password'];
     protected static function boot()
     {
         parent::boot();

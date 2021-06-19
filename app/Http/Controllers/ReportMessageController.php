@@ -34,7 +34,7 @@ class ReportMessageController extends Controller
         if($request->input('type')) $message->type = $request->input('type');
         if($request->input('report_id')) $message->report_id = $id;
         $message->from = $user->id;
-        if($request->input('type') == "au") $message->to = $report->assigned_to_admin;
+        if($request->input('type') == "au") $message->to = $report->user_id;
         if($request->input('type') == "am") $message->to = $report->assigned_to_manager;
         $message->save();
         event(new MessageCreated($message));

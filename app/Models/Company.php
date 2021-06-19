@@ -23,9 +23,13 @@ class Company extends Model
     {
         return $this->hasMany('App\Models\CompanyManager','company_id','id');
     }
+     public function programs()
+    {
+        return $this->hasMany('App\Models\Program','company_id','id');
+    }
 
  
-    protected $hidden = ['managers', 'alpha_code','beta_code'];
+    protected $hidden = ['managers','programs', 'alpha_code','beta_code'];
 
 
 

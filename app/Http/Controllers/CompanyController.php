@@ -12,7 +12,7 @@ class CompanyController extends Controller
 {
     public function index()
     {
-        return Company::withCount('managers')->paginate(10);
+        return Company::withCount(['managers','programs'])->paginate(10);
     }
 
     public function show($id)
