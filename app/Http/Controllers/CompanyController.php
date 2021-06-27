@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\CompanyManager;
+use App\Models\Manager;
 use Illuminate\Http\Request;
+use App\Mail\InviteManager;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 
 class CompanyController extends Controller
@@ -38,6 +41,25 @@ class CompanyController extends Controller
         $company->alpha_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
         $company->beta_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);
         $company->save();
+        $password = substr(strtoupper(Str::random(12)),0,-1);
+        $manager = new Manager();
+        $manager->username = 'Manager-'.substr(strtoupper(Str::random(4)),0,-1);
+        $manager->email = $company->email;
+        $manager->public_address = "";
+        $manager->role = 'sysalpha';
+        $manager->password = bcrypt($password);
+        $manager->save();
+        $details = [
+            'email' => $company->email,
+            'password' => $password,
+            'role' => $manager->role,
+            'company' => $company->name,
+        ];
+        $cm = new CompanyManager();
+        $cm->company_id = $company->id;
+        $cm->manager_id = $manager->id;
+        $cm->save();
+        Mail::to($company->email)->send(new inviteManager($details));
         return $company;
     }
 
