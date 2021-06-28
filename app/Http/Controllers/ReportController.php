@@ -79,8 +79,6 @@ class ReportController extends Controller
         $report = Report::findOrFail($id);
         if($request->input('target')) $report->target = $request->input('target');
         if($request->input('vuln_id')) $report->vuln_id = $request->input('vuln_id');
-        if($request->input('user_id')) $report->user_id = $request->input('user_id');
-        if($request->input('prog_id')) $report->prog_id = $request->input('prog_id');
         if($request->input('vuln_name')) $report->vuln_name = $request->input('vuln_name');
         if($request->input('vuln_details')) $report->vuln_details = $request->input('vuln_details');
         if($request->input('validation_steps')) $report->validation_steps = $request->input('validation_steps');
@@ -91,6 +89,12 @@ class ReportController extends Controller
         if($request->input('status')) $report->status = $request->input('status');
         $report->save();
         return $report;
+    }
+     public function assigne(Request $request,$id){
+          $report = Report::findOrFail($id);
+          $report->assigned_to_admin = $request->input('admin_id');
+          $report->save();
+          return $report;
     }
     public function destroy($id)
     {

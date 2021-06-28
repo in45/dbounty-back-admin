@@ -46,6 +46,10 @@ class AdminController extends Controller
     {
         return Admin::paginate(10);
     }
+     public function sudos()
+    {
+        return Admin::where('role','sudo')->get();
+    }
 
     public function show($user_id)
     {

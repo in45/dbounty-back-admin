@@ -36,6 +36,7 @@ class CompanyController extends Controller
         if($request->input('website')) $company->website = $request->input('website');
         if($request->input('email')) $company->email = $request->input('email');
         if($request->input('phone')) $company->phone = $request->input('phone');
+        if($request->input('balance')) $company->balance = $request->input('balance');
         if($request->input('description')) $company->description = $request->input('description');
          if($request->file('logo')) $company->logo = $request->file('logo')->storeAs('companies', $request->logo->getClientOriginalName(), 'public');
         $company->alpha_code = substr(strtoupper(chunk_split(Str::random(16), 4, '-')),0,-1);

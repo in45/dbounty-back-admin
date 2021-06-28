@@ -45,6 +45,7 @@ Route::put('users/{user_id}/ban', [UserController::class, 'ban']);
 //API For Admins
 
 Route::get('admins', [AdminController::class, 'index']);
+Route::get('admins/sudo', [AdminController::class, 'sudos']);
 Route::get('admins/{user_id}', [AdminController::class, 'show']);
 Route::post('admins', [AdminController::class, 'store']);
 Route::post('admins/{user_id}', [AdminController::class, 'update']);
@@ -108,6 +109,7 @@ Route::delete('vulnerabilities/{id}', [VulnerabilityController::class, 'destroy'
 Route::get('me/messages', [ReportMessageController::class, 'getMessages']);
 Route::post('reports/{id}/messages', [ReportMessageController::class, 'store']);
 Route::get('reports/{id}/messages', [ReportMessageController::class, 'getReportMessages']);
+Route::post('reports/{id}/assign', [ReportController::class, 'assigne']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
