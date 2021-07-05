@@ -48,7 +48,7 @@ class AdminController extends Controller
     }
      public function sudos()
     {
-        return Admin::where('role','sudo')->get();
+        return Admin::where('role','sysmanage')->get();
     }
 
     public function show($user_id)
